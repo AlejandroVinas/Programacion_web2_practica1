@@ -1,4 +1,4 @@
-ddd# PW2 — Práctica 2: Tienda con Svelte 5
+# PW2 — Práctica 2: Tienda con Svelte 5
 
 Aplicación web fullstack con backend en **Node.js + Express + MongoDB** y frontend SPA en **Svelte 5 + Vite** (sin SvelteKit). Implementa autenticación JWT, gestión de productos y usuarios con roles, y persistencia de sesión.
 
