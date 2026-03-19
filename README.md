@@ -1,4 +1,4 @@
-ddd# PW2 — Práctica 2: Tienda con Svelte 5
+# PW2 — Práctica 2: Tienda con Svelte 5
 
 Aplicación web fullstack con backend en **Node.js + Express + MongoDB** y frontend SPA en **Svelte 5 + Vite** (sin SvelteKit). Implementa autenticación JWT, gestión de productos y usuarios con roles, y persistencia de sesión.
 
@@ -334,3 +334,68 @@ Base URL: `http://localhost:3000/api`
 - Filtros combinados: búsqueda por nombre, precio mínimo, precio máximo y estado activo/inactivo, todos calculados con $derived.by() sin peticiones extra al backend. Indicador visual de filtros activos y botón para limpiarlos.
 - Manejo avanzado de formularios: validaciones de campos obligatorios, formatos y rangos, mensajes de error inline, botones deshabilitados mientras se guardan cambios.
 - Experiencia de usuario mejorada: skeletons de carga, toasts de éxito y error, confirmación antes de cualquier acción destructiva, interceptor global con $effect para errores 401/403/500, autologin tras registro.
+
+---
+
+## Solución de problemas frecuentes
+
+### Error al instalar dependencias (conflicto de versiones npm)
+
+Si `npm install` falla con un error `ERESOLVE unable to resolve dependency tree`, borra la caché y las dependencias instaladas antes de volver a intentarlo.
+
+**En el backend:**
+
+```bash
+cd backend
+rmdir /s /q node_modules
+del package-lock.json
+npm install
+```
+
+**En el frontend:**
+
+```bash
+cd frontend-svelte
+rmdir /s /q node_modules
+del package-lock.json
+npm install
+```
+
+Si sigue fallando después de borrar, usa el flag que ignora conflictos de versiones entre paquetes:
+
+```bash
+npm install --legacy-peer-deps
+```
+
+> Nota: los comandos `rmdir /s /q` y `del` son para **Windows** (cmd o PowerShell).
+> En macOS/Linux usa `rm -rf node_modules package-lock.json` en su lugar.
+
+---
+
+### Error de conexión a Redis: `getaddrinfo ENOTFOUND redis`
+
+Este error aparece cuando el backend intenta conectarse a Redis usando el hostname `redis` (nombre de contenedor Docker interno) en lugar de `localhost`.
+
+**Solución — editar el archivo `.env`:**
+
+Abre `backend/.env` y añade o edita la línea de Redis:
+
+```
+REDIS_URL=redis://localhost:6379
+```
+
+Guarda el archivo. Nodemon reiniciará el servidor automáticamente y deberías ver `Redis Client Ready` en la terminal.
+
+**Solución alternativa — editar directamente el archivo de configuración:**
+
+Si no quieres tocar el `.env`, abre `backend/src/config/redis.js` y cambia:
+
+```js
+// Antes
+url: process.env.REDIS_URL || 'redis://redis:6379'
+
+// Después
+url: process.env.REDIS_URL || 'redis://localhost:6379'
+```
+
+Guarda y nodemon reiniciará solo.
