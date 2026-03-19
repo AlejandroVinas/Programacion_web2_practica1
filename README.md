@@ -15,7 +15,7 @@ Aplicación web fullstack con backend en **Node.js + Express + MongoDB** y front
 7. [Runes de Svelte 5](#runes-de-svelte-5)
 8. [Endpoints de la API](#endpoints-de-la-api)
 9. [Funcionalidades implementadas](#funcionalidades-implementadas)
-10. [Solucion de problemas frecuentes](#Solucion-de-problemas-freceuntes)
+10. [Solucion de problemas frecuentes](#Solucion-de-problemas-frecuentes)
 
 ---
 
